@@ -1,0 +1,15 @@
+<set>
+  <tiles>
+<tile name="Assets/cube1" symmetry="X" weight="1.0"/>
+<tile name="Assets/cube3" symmetry="X" weight="1.0"/>
+	</tiles>
+<neighbors>  <neighbor left="Assets/cube1 1" right="Assets/cube3 1"/>
+  <neighbor left="Assets/cube1 1" right="Assets/cube1 1"/>
+  <neighbor left="Assets/cube3 0" right="Assets/cube3 0"/>
+  <neighbor left="Assets/cube3 1" right="Assets/cube3 1"/>
+  <neighbor left="Assets/cube1 0" right="Assets/cube1 0"/>
+  <neighbor left="Assets/cube1 0" right="Assets/cube3 0"/>
+  <neighbor left="Assets/cube3 0" right="Assets/cube1 0"/>
+  <neighbor left="Assets/cube3 1" right="Assets/cube1 1"/>
+	</neighbors>
+</set>
