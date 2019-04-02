@@ -7,7 +7,11 @@ using UnityEditor;
 
 [ExecuteInEditMode]
 class OverlapWFC : MonoBehaviour{
-	public Training training = null;
+
+    //---------prefabs types to delete floating rooms--------
+    public GameObject repMur;
+
+    public Training training = null;
 	public int gridsize = 1;
 	public int width = 20;
 	public int depth = 20;
@@ -58,17 +62,17 @@ class OverlapWFC : MonoBehaviour{
 	void Awake(){}
 
 	void Start(){
-		Generate(output);
-        Generate(GameObject.Find("output-overlap2"));
+		Generate();
+
     }
 
 	void Update(){
-		/*if (incremental){
+		if (incremental){
 			Run();
-		}*/
+		}
 	}
 
-	public void Generate(GameObject outputObj) {
+	public void Generate() {
 		if (training == null){Debug.Log("Can't Generate: no designated Training component");}
 		if (IsPrefabRef(training.gameObject)){
 			GameObject o = CreatePrefab(training.gameObject, new Vector3(0,99999f,0f), Quaternion.identity);
@@ -77,31 +81,26 @@ class OverlapWFC : MonoBehaviour{
 		if (training.sample == null){
 			training.Compile();
 		}
-		if (outputObj == null){
+		if (output == null){
 			Transform ot = transform.Find("output-overlap");
-			if (ot != null){outputObj = ot.gameObject;}}
-		if (outputObj == null){
-			outputObj = new GameObject("output-overlap");
-			outputObj.transform.parent = transform;
-			outputObj.transform.position = this.gameObject.transform.position;
-			outputObj.transform.rotation = this.gameObject.transform.rotation;}
-		for (int i = 0; i < outputObj.transform.childCount; i++){
-			GameObject go = outputObj.transform.GetChild(i).gameObject;
+			if (ot != null){output = ot.gameObject;}}
+		if (output == null){
+			output = new GameObject("output-overlap");
+			output.transform.parent = transform;
+			output.transform.position = this.gameObject.transform.position;
+			output.transform.rotation = this.gameObject.transform.rotation;}
+		for (int i = 0; i < output.transform.childCount; i++){
+			GameObject go = output.transform.GetChild(i).gameObject;
 			if (Application.isPlaying){Destroy(go);} else {DestroyImmediate(go);}
 		}
 		group = new GameObject(training.gameObject.name).transform;
-		group.parent = outputObj.transform;
-		group.position = outputObj.transform.position;
-		group.rotation = outputObj.transform.rotation;
+		group.parent = output.transform;
+		group.position = output.transform.position;
+		group.rotation = output.transform.rotation;
         group.localScale = new Vector3(1f, 1f, 1f);
         rendering = new GameObject[width, depth, 3];
 		model = new OverlappingModel(training.sample, N, width, depth, periodicInput, periodicOutput, symmetry, foundation);
         undrawn = true;
-
-        if (model.Run(seed, iterations))
-        {
-            Draw();
-        }
     }
 
 	void OnDrawGizmos(){
@@ -132,7 +131,6 @@ class OverlapWFC : MonoBehaviour{
         {
             for (int z = 0; z < 1; z++)
             {
-                Debug.Log(z);
                 for (int y = 0; y < depth; y++)
                 {
                     for (int x = 0; x < width; x++)
@@ -164,19 +162,28 @@ class OverlapWFC : MonoBehaviour{
                     }
                 }
             }
-	  	} catch (IndexOutOfRangeException e) {
+
+    } catch (IndexOutOfRangeException e) {
 	  		model = null;
 	  		return;
 	  	}
-	}
 
-    public void parsePattern()
-    {
-        GameObject tiles = GameObject.Find("EventSystem/tiles");
-        foreach(Transform tile in tiles.transform)
+        //---------Sorting and delete plateforms----------
+
+        for (int z = 0; z < 1; z++)
         {
-            Debug.Log(tile.transform.GetSiblingIndex(););
-            
+            for (int y = 0; y < depth; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+
+                    if (rendering[x, y, z].GetType() == repMur.GetType())
+                    {
+                        Debug.Log("HEEEEEEEEEEEEYOOOOOOO");
+                    }
+
+                }
+            }
         }
     }
 }
@@ -188,10 +195,8 @@ public class WFCGeneratorEditor : Editor {
 		OverlapWFC generator = (OverlapWFC)target;
 		if (generator.training != null){
 			if(GUILayout.Button("generate")){
-				generator.Generate(generator.output);
-                generator.Generate(GameObject.Find("output-overlap2"));
-                generator.parsePattern();
-            }
+				generator.Generate();
+			}
 			if (generator.model != null){
 				if(GUILayout.Button("RUN")){
 					generator.Run();

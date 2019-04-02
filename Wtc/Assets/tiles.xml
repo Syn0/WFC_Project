@@ -1,15 +1,66 @@
 <set>
   <tiles>
-<tile name="Assets/cube1" symmetry="X" weight="1.0"/>
+<tile name="Assets/wallCorner_botRight" symmetry="X" weight="1.0"/>
+<tile name="Assets/wall_bot" symmetry="X" weight="1.0"/>
+<tile name="Assets/wallCorner_botLeft" symmetry="X" weight="1.0"/>
+<tile name="Assets/wall_right" symmetry="X" weight="1.0"/>
+<tile name="Assets/wallCorner_topRight" symmetry="X" weight="1.0"/>
+<tile name="Assets/wall_top" symmetry="X" weight="1.0"/>
+<tile name="Assets/wallCorner_topLeft" symmetry="X" weight="1.0"/>
+<tile name="Assets/wall_left" symmetry="X" weight="1.0"/>
 <tile name="Assets/cube3" symmetry="X" weight="1.0"/>
+<tile name="Assets/cube1" symmetry="X" weight="1.0"/>
+<tile name="Assets/cube2" symmetry="X" weight="1.0"/>
 	</tiles>
-<neighbors>  <neighbor left="Assets/cube1 1" right="Assets/cube3 1"/>
+<neighbors>  <neighbor left="Assets/cube1 0" right="Assets/cube1 0"/>
   <neighbor left="Assets/cube1 1" right="Assets/cube1 1"/>
-  <neighbor left="Assets/cube3 0" right="Assets/cube3 0"/>
+  <neighbor left="Assets/cube1 1" right="Assets/cube3 1"/>
+  <neighbor left="Assets/wallCorner_botLeft 0" right="Assets/wall_bot 0"/>
+  <neighbor left="Assets/wallCorner_botLeft 1" right="Assets/wall_left 1"/>
+  <neighbor left="Assets/wall_bot 0" right="Assets/wall_bot 0"/>
+  <neighbor left="Assets/wall_bot 1" right="Assets/cube3 1"/>
+  <neighbor left="Assets/wall_bot 0" right="Assets/cube3 0"/>
+  <neighbor left="Assets/cube3 0" right="Assets/wall_bot 0"/>
   <neighbor left="Assets/cube3 1" right="Assets/cube3 1"/>
-  <neighbor left="Assets/cube1 0" right="Assets/cube1 0"/>
-  <neighbor left="Assets/cube1 0" right="Assets/cube3 0"/>
+  <neighbor left="Assets/wall_bot 0" right="Assets/wallCorner_botRight 0"/>
+  <neighbor left="Assets/wallCorner_botRight 1" right="Assets/wall_right 1"/>
+  <neighbor left="Assets/wall_left 0" right="Assets/cube3 0"/>
+  <neighbor left="Assets/wall_left 1" right="Assets/wall_left 1"/>
+  <neighbor left="Assets/cube3 0" right="Assets/cube3 0"/>
+  <neighbor left="Assets/cube3 0" right="Assets/wall_right 0"/>
+  <neighbor left="Assets/wall_right 1" right="Assets/wall_right 1"/>
+  <neighbor left="Assets/cube1 1" right="Assets/cube2 1"/>
+  <neighbor left="Assets/wall_bot 1" right="Assets/cube2 1"/>
+  <neighbor left="Assets/wall_bot 0" right="Assets/cube2 0"/>
+  <neighbor left="Assets/cube2 0" right="Assets/wall_bot 0"/>
+  <neighbor left="Assets/cube2 1" right="Assets/cube2 1"/>
+  <neighbor left="Assets/wall_right 1" right="Assets/cube3 1"/>
+  <neighbor left="Assets/wall_left 0" right="Assets/cube2 0"/>
+  <neighbor left="Assets/wall_left 1" right="Assets/cube2 1"/>
+  <neighbor left="Assets/cube2 0" right="Assets/cube2 0"/>
+  <neighbor left="Assets/cube2 0" right="Assets/wall_right 0"/>
+  <neighbor left="Assets/wall_right 1" right="Assets/cube2 1"/>
   <neighbor left="Assets/cube3 0" right="Assets/cube1 0"/>
+  <neighbor left="Assets/cube3 1" right="Assets/wall_right 1"/>
+  <neighbor left="Assets/cube1 0" right="Assets/cube2 0"/>
+  <neighbor left="Assets/cube2 1" right="Assets/wall_left 1"/>
+  <neighbor left="Assets/cube2 0" right="Assets/cube1 0"/>
+  <neighbor left="Assets/cube2 1" right="Assets/wall_right 1"/>
+  <neighbor left="Assets/wall_left 1" right="Assets/cube3 1"/>
+  <neighbor left="Assets/wall_left 1" right="Assets/wallCorner_topLeft 1"/>
+  <neighbor left="Assets/cube2 1" right="Assets/wall_top 1"/>
+  <neighbor left="Assets/wall_right 1" right="Assets/wallCorner_topRight 1"/>
+  <neighbor left="Assets/cube1 0" right="Assets/cube3 0"/>
+  <neighbor left="Assets/cube3 1" right="Assets/wall_left 1"/>
+  <neighbor left="Assets/wallCorner_topLeft 0" right="Assets/wall_top 0"/>
+  <neighbor left="Assets/wall_top 0" right="Assets/wall_top 0"/>
+  <neighbor left="Assets/wall_top 0" right="Assets/cube2 0"/>
+  <neighbor left="Assets/cube2 0" right="Assets/wall_top 0"/>
+  <neighbor left="Assets/cube2 1" right="Assets/cube1 1"/>
+  <neighbor left="Assets/wall_top 0" right="Assets/wallCorner_topRight 0"/>
+  <neighbor left="Assets/cube3 1" right="Assets/wall_top 1"/>
+  <neighbor left="Assets/wall_top 0" right="Assets/cube3 0"/>
+  <neighbor left="Assets/cube3 0" right="Assets/wall_top 0"/>
   <neighbor left="Assets/cube3 1" right="Assets/cube1 1"/>
 	</neighbors>
 </set>

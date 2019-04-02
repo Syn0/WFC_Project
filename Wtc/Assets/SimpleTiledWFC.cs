@@ -84,7 +84,6 @@ public class SimpleTiledWFC : MonoBehaviour{
         rendering = new GameObject[width, depth];
 		this.model = new SimpleTiledModel(xml.text, subset, width, depth, periodic);
         undrawn = true;
-        Debug.Log("here");
     }
 
 	public void Draw(){
