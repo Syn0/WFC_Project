@@ -297,7 +297,7 @@ public class WFCGeneratorEditor : Editor {
                 DestroyImmediate(GameObject.Find("staircases"));
                 GameObject staircases = new GameObject();
                 staircases.name = "staircases";
-                staircases.transform.position.y = -2;
+                staircases.transform.position = new Vector3(0, -2, 0);
                 generator.Generate(generator.output);
                 generator.Generate(GameObject.Find("output-overlap2"));
 			}
