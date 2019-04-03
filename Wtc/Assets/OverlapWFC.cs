@@ -9,7 +9,7 @@ using UnityEditor;
 class OverlapWFC : MonoBehaviour{
 
     //---------prefabs types to delete floating rooms--------
-    public GameObject repMur;
+    public GameObject repMur, repMur2, repMur3, repMur4, repMur5, repMur6;
 
     public Training training = null;
 	public int gridsize = 1;
@@ -27,6 +27,8 @@ class OverlapWFC : MonoBehaviour{
 	public OverlappingModel model = null;
 	public GameObject[,,] rendering;
 	public GameObject output;
+    public Material materialStep;
+
 	private Transform group;
     private bool undrawn = true;
 
@@ -54,7 +56,11 @@ class OverlapWFC : MonoBehaviour{
 		if (group != null){
 			if (Application.isPlaying){Destroy(group.gameObject);} else {
 				DestroyImmediate(group.gameObject);
-			}	
+                foreach(Transform child in GameObject.Find("staircases").transform)
+                {
+                    Destroy(child.gameObject);
+                }
+            }	
 			group = null;
 		}
 	}
@@ -105,7 +111,8 @@ class OverlapWFC : MonoBehaviour{
 
         if (model.Run(seed, iterations))
         {
-            Draw();
+            if (outputObj.name == "output-overlap") Draw();
+            else if (outputObj.name == "output-overlap2") Draw(true);
         }
     }
 
@@ -129,7 +136,7 @@ class OverlapWFC : MonoBehaviour{
 		return rendering[x,y,z];
 	}
 
-	public void Draw(){
+	public void Draw(bool staircase = false){
 		if (output == null){return;}
 		if (group == null){return;}
         undrawn = false;
@@ -158,6 +165,8 @@ class OverlapWFC : MonoBehaviour{
                                     tile.transform.localEulerAngles = new Vector3(0, 0, 360 - (rot * 90)); //----mark rotation !----
                                     tile.transform.localScale = fscale;
                                     rendering[x, y, z] = tile;
+
+                                    if (staircase && y == 20) DrawStaircase(tile);
                                 }
                             }
                             else
@@ -169,27 +178,126 @@ class OverlapWFC : MonoBehaviour{
                 }
             }
 
-    } catch (IndexOutOfRangeException e) {
-	  		model = null;
-	  		return;
-	  	}
+        } catch (IndexOutOfRangeException e) {
+	  	    model = null;
+	  	    return;
+	    }
 
         //---------Sorting and delete plateforms----------
-
         for (int z = 0; z < 1; z++)
         {
             for (int y = 0; y < depth; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-
-                    if (rendering[x, y, z].GetType() == repMur.GetType())
+                    if (rendering[x, y, z] != null)
                     {
-                        Debug.Log("HEEEEEEEEEEEEYOOOOOOO");
-                    }
 
+                        //Debug.Log(rendering[x, y, z].name.Replace("(Clone)", "") + " | " + repMur.name);
+                        //------
+                        if (rendering[x, y, z].name.Replace("(Clone)", "") == repMur.name)
+                        {
+                            //--the following deletes the 'flying room' if it is one--
+
+                            bool flying = true; //--------------- does the room have a path to it? we suppose it has not and whenever a path is found,
+                            int v = (int)model.Sample(x, y);//--- switch flying to false, we then delete the room is flying hasn't been changed by the algorythm
+                            Vector3 pos = new Vector3(x * gridsize, y * gridsize, z * gridsize);
+                            int rot = (int)training.RS[v];
+                            pos = rendering[x, y, 0].transform.position;
+                            //pos.x += 1;
+                            GameObject currentObj = null; //-> = renderingxyz transform.gameobject
+                            while (currentObj == null)
+                            {
+                                Collider[] hitColliders = Physics.OverlapSphere(rendering[x, y, 0].transform.position, 1f);
+
+                                if (hitColliders.Length != 0)
+                                {
+                                    for (int i = 0; i < hitColliders.Length; i++)
+                                    {
+                                        if (hitColliders[i].gameObject.name != null)
+                                        {
+                                            currentObj = hitColliders[i].gameObject;
+                                            if (currentObj.name.Replace("(Clone)", "") == repMur5.name || currentObj.name.Replace("(Clone)", "") == repMur6.name)
+                                            {
+                                                flying = false;
+                                                Debug.Log("+1 not flying house");
+                                            }
+
+                                        }
+                                    }
+                                }
+                                //-----faire une chenille qui est "periodic output frendly"------
+                            }
+                        }
+
+                        if (rendering[x, y, z].name == "cube3(Clone)" || rendering[x, y, z].name == "cube2(Clone)")
+                        {
+                            Collider[] hitColliders = Physics.OverlapSphere(rendering[x, y, z].transform.position, 1.0f);
+                            if (hitColliders.Length != 0)
+                            {
+                                for (int i = 0; i < hitColliders.Length; i++)
+                                {
+                                    if (hitColliders[i].name == "cube1(Clone)") { 
+                                        hitColliders[i].name = "porte";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    /*if (rendering[x, y, z].GetType() == repMur.GetType())
+                    {
+                        //Debug.Log("HEEEEEEEEEEEEYOOOOOOO");
+                    }*/
+                    /*if(rendering[x, y, z] != null) {
+                        if (rendering[x, y, z].name == "cube3(Clone)")
+                        {
+                            int l = 4;
+                            GameObject [] collideChecker = new GameObject[l];
+                            BoxCollider [] collider = new BoxCollider[l];
+                            Rigidbody [] rigid = new Rigidbody[l];
+                            for (int i = 0; i < collideChecker.Length; i++)
+                            {
+                                collideChecker[i] = new GameObject();
+                                collider[i] = collideChecker[i].AddComponent<BoxCollider>();
+                                collider[i].isTrigger = true;
+                                rigid[i] = collideChecker[i].AddComponent<Rigidbody>();
+                                collideChecker[i].transform.position = rendering[x, y, z].transform.position;
+                            }
+                            collideChecker[0].transform.position += new Vector3( 1, 0, 0);
+                            collideChecker[1].transform.position += new Vector3( 0, 1, 0);
+                            collideChecker[2].transform.position += new Vector3(-1, 0, 0);
+                            collideChecker[3].transform.position += new Vector3(0, -1, 0);
+                        }
+                    }*/
                 }
             }            
+        }
+    }
+
+    void DrawStaircase(GameObject tile)
+    {
+        if (tile.name == "cube1(Clone)")
+        {
+            for (int i = 2; i >= 0; i--)
+            {
+                GameObject step = GameObject.CreatePrimitive(PrimitiveType.Cube); ;
+                step.GetComponent<MeshRenderer>().material = materialStep;
+                step.transform.parent = GameObject.Find("staircases").transform;
+                step.name = "my step - " + i;
+                step.transform.position = tile.transform.position;
+                step.transform.position += new Vector3(-1, i * 1, i * 1);
+                Collider[] hitColliders = Physics.OverlapSphere((step.transform.position + new Vector3(-1, (i+1) * 1, (i+1) * 1)), 1.0f);
+                if(hitColliders.Length != 0)
+                {
+                    for (int j = 0; j < hitColliders.Length; j++)
+                    {
+                        hitColliders[i].name = "wtf - "+ hitColliders.Length;
+                    }
+                    //Debug.Log(step.name);
+                    /*DestroyImmediate(step);
+                    i = -1;*/
+                }
+            }
         }
     }
 }
@@ -201,7 +309,15 @@ public class WFCGeneratorEditor : Editor {
 		OverlapWFC generator = (OverlapWFC)target;
 		if (generator.training != null){
 			if(GUILayout.Button("generate")){
-				generator.Generate(generator.output);
+                /*foreach (Transform child in GameObject.Find("staircases").transform)
+                {
+                    DestroyImmediate(child.gameObject);
+                }*/
+                //generator.Clear();
+                DestroyImmediate(GameObject.Find("staircases"));
+                GameObject starircases = new GameObject();
+                starircases.name = "staircases";
+                generator.Generate(generator.output);
                 generator.Generate(GameObject.Find("output-overlap2"));
 			}
 			if (generator.model != null){
