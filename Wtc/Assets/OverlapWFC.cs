@@ -265,7 +265,7 @@ class OverlapWFC : MonoBehaviour{
                 if (i == 2)
                 {
                     Collider[] hitColliders = Physics.OverlapSphere((step.transform.position + new Vector3(-1, i * 1, i * 1)), 1f);
-                    if (hitColliders.Length == 0)
+                    if (hitColliders.Length > 1)
                     {
                         DestroyImmediate(step);
                         i = -1;
