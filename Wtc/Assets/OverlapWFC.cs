@@ -70,7 +70,6 @@ class OverlapWFC : MonoBehaviour{
 	void Start(){
 		Generate(output);
         Generate(GameObject.Find("output-overlap2"));
-
     }
 
 	void Update(){
@@ -179,6 +178,7 @@ class OverlapWFC : MonoBehaviour{
             }
 
         } catch (IndexOutOfRangeException e) {
+            Debug.Log(e);
 	  	    model = null;
 	  	    return;
 	    }
@@ -220,7 +220,7 @@ class OverlapWFC : MonoBehaviour{
                                             if (currentObj.name.Replace("(Clone)", "") == repMur5.name || currentObj.name.Replace("(Clone)", "") == repMur6.name)
                                             {
                                                 flying = false;
-                                                Debug.Log("+1 not flying house");
+                                                //Debug.Log("+1 not flying house");
                                             }
 
                                         }
@@ -261,13 +261,14 @@ class OverlapWFC : MonoBehaviour{
                 step.name = "my step - " + i;
                 step.transform.position = tile.transform.position;
                 step.transform.position += new Vector3(-1, i * 1, i * 1);
-                Collider[] hitColliders = Physics.OverlapSphere((step.transform.position + new Vector3(-1, (i+1) * 1, (i+1) * 1)), 1.0f);
+
+                Collider[] hitColliders = Physics.OverlapSphere((step.transform.position + new Vector3(-1, (i+1) * 1, (i+1) * 1)), 0.5f);
                 if(hitColliders.Length != 0)
                 {
-                    for (int j = 0; j < hitColliders.Length; j++)
+                    /*for (int j = 0; j < hitColliders.Length; j++)
                     {
                         hitColliders[i].name = "wtf - "+ hitColliders.Length;
-                    }
+                    }*/
                     //Debug.Log(step.name);
                     /*DestroyImmediate(step);
                     i = -1;*/
