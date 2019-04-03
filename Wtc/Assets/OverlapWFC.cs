@@ -244,31 +244,6 @@ class OverlapWFC : MonoBehaviour{
                             }
                         }
                     }
-                    /*if (rendering[x, y, z].GetType() == repMur.GetType())
-                    {
-                        //Debug.Log("HEEEEEEEEEEEEYOOOOOOO");
-                    }*/
-                    /*if(rendering[x, y, z] != null) {
-                        if (rendering[x, y, z].name == "cube3(Clone)")
-                        {
-                            int l = 4;
-                            GameObject [] collideChecker = new GameObject[l];
-                            BoxCollider [] collider = new BoxCollider[l];
-                            Rigidbody [] rigid = new Rigidbody[l];
-                            for (int i = 0; i < collideChecker.Length; i++)
-                            {
-                                collideChecker[i] = new GameObject();
-                                collider[i] = collideChecker[i].AddComponent<BoxCollider>();
-                                collider[i].isTrigger = true;
-                                rigid[i] = collideChecker[i].AddComponent<Rigidbody>();
-                                collideChecker[i].transform.position = rendering[x, y, z].transform.position;
-                            }
-                            collideChecker[0].transform.position += new Vector3( 1, 0, 0);
-                            collideChecker[1].transform.position += new Vector3( 0, 1, 0);
-                            collideChecker[2].transform.position += new Vector3(-1, 0, 0);
-                            collideChecker[3].transform.position += new Vector3(0, -1, 0);
-                        }
-                    }*/
                 }
             }            
         }
