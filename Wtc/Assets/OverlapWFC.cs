@@ -165,7 +165,7 @@ class OverlapWFC : MonoBehaviour{
                                     tile.transform.localScale = fscale;
                                     rendering[x, y, z] = tile;
 
-                                    if (staircase && y == 20) DrawStaircase(tile);
+                                    if (staircase && x % 3 == 0 && y % 5 == 0) DrawStaircase(tile);
                                 }
                             }
                             else
@@ -262,20 +262,24 @@ class OverlapWFC : MonoBehaviour{
                 step.transform.position = tile.transform.position;
                 step.transform.position += new Vector3(-1, i * 1, i * 1);
 
-                Collider[] hitColliders = Physics.OverlapSphere((step.transform.position + new Vector3(-1, (i+1) * 1, (i+1) * 1)), 0.5f);
-                if(hitColliders.Length != 0)
+                if (i == 2)
                 {
-                    /*for (int j = 0; j < hitColliders.Length; j++)
+                    Collider[] hitColliders = Physics.OverlapSphere((step.transform.position + new Vector3(-1, i * 1, i * 1)), 1f);
+                    if (hitColliders.Length == 0)
                     {
-                        hitColliders[i].name = "wtf - "+ hitColliders.Length;
-                    }*/
-                    //Debug.Log(step.name);
-                    /*DestroyImmediate(step);
-                    i = -1;*/
+                        DestroyImmediate(step);
+                        i = -1;
+                    }
                 }
             }
         }
     }
+
+    /*void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.DrawSphere((step.transform.position + new Vector3(-1, i * 1, (i + 1) * 1)), 0.5f);
+    }*/
 }
 
  #if UNITY_EDITOR
