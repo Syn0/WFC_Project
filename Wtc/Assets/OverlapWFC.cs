@@ -68,8 +68,8 @@ class OverlapWFC : MonoBehaviour{
 	void Awake(){}
 
 	void Start(){
-		Generate(output);
-        Generate(GameObject.Find("output-overlap2"));
+		/*Generate(output);
+        Generate(GameObject.Find("output-overlap2"));*/
     }
 
 	void Update(){
@@ -260,12 +260,12 @@ class OverlapWFC : MonoBehaviour{
                 step.transform.parent = GameObject.Find("staircases").transform;
                 step.name = "my step - " + i;
                 step.transform.position = tile.transform.position;
-                step.transform.position += new Vector3(-1, i * 1, i * 1);
+                step.transform.position += new Vector3(-1, (i * 1) - 2, i * 1);
 
                 if (i == 2)
                 {
                     Collider[] hitColliders = Physics.OverlapSphere((step.transform.position + new Vector3(-1, i * 1, i * 1)), 1f);
-                    if (hitColliders.Length > 1)
+                    if (hitColliders.Length > 2)
                     {
                         DestroyImmediate(step);
                         i = -1;
@@ -297,7 +297,7 @@ public class WFCGeneratorEditor : Editor {
                 DestroyImmediate(GameObject.Find("staircases"));
                 GameObject staircases = new GameObject();
                 staircases.name = "staircases";
-                staircases.transform.position = new Vector3(0, -2, 0);
+                staircases.transform.position = new Vector3(0, 0, 0);
                 generator.Generate(generator.output);
                 generator.Generate(GameObject.Find("output-overlap2"));
 			}
